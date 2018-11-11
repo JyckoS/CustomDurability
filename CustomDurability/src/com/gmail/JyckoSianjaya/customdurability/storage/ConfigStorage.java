@@ -77,24 +77,24 @@ public class ConfigStorage {
 		int shdmg = dmgs.getInt("shield_item.flying_for_second");
 		DamageConfig shconfig = new DamageConfig();
 		shconfig.setFlintLitDmg(shdmg);
-		registerDamage(XMaterial.requestXMaterial("SHIELD", dummybyte).parseMaterial(), shconfig);
+		registerDamage(XMaterial.SHIELD.parseMaterial(), shconfig);
 		
 		// ELYTRA
 		int elydmg = dmgs.getInt("elytra_item.flying_for_second");
 		DamageConfig elyconfig = new DamageConfig();
 		elyconfig.setFlintLitDmg(elydmg);
-		registerDamage(XMaterial.requestXMaterial("ELYTRA", dummybyte).parseMaterial(), elyconfig);
+		registerDamage(XMaterial.ELYTRA.parseMaterial(), elyconfig);
 		// BOW
 		int bowdmg = dmgs.getInt("bow_item.shooting_arrow");
 		DamageConfig bowconfig = new DamageConfig();
 		bowconfig.setBowShootDmg(bowdmg);
-		registerDamage(XMaterial.requestXMaterial("BOW", dummybyte).parseMaterial(), bowconfig);
+		registerDamage(XMaterial.BOW.parseMaterial(), bowconfig);
 		
 		// FLINT & STEL
 		int flintdmg = dmgs.getInt("flint_and_steel.burn_up");
 		DamageConfig flintconfig = new DamageConfig();
 		flintconfig.setFlintLitDmg(flintdmg);
-		registerDamage(XMaterial.requestXMaterial("FLINT_AND_STEEL", dummybyte).parseMaterial(), flintconfig);
+		registerDamage(XMaterial.FLINT_AND_STEEL.parseMaterial(), flintconfig);
 		
 		// CARROT ON STICK
 		int boostdmg = dmgs.getInt("carrot_on_stick.use_boost");
@@ -113,7 +113,7 @@ public class ConfigStorage {
 		rodconfig.setFrod_empty_reel_dmg(frod_reel_empty);
 		rodconfig.setFrod_Yank_Entity_Dmg(frod_yank_mob);
 		rodconfig.setFrod_Yank_Item_dmg(frod_yank_item);
-		registerDamage(XMaterial.requestXMaterial("FISHING_ROD", dummybyte).parseMaterial(), rodconfig);
+		registerDamage(XMaterial.FISHING_ROD.parseMaterial(), rodconfig);
 		//SWORD
 		
 		int sword_ehit = dmgs.getInt("swords.entity_hit");
@@ -121,12 +121,13 @@ public class ConfigStorage {
 		DamageConfig swordconfig = new DamageConfig();
 		swordconfig.setBlockDmg(sword_bbreak);
 		swordconfig.setEntityDmg(sword_ehit);
-		registerDamage(XMaterial.requestXMaterial("DIAMOND_SWORD", dummybyte).parseMaterial(), swordconfig);
+		registerDamage(XMaterial.DIAMOND_SWORD.parseMaterial(), swordconfig);
 		registerDamage(XMaterial.GOLDEN_SWORD.parseMaterial(), swordconfig);
 
-		registerDamage(XMaterial.requestXMaterial("IRON_SWORD", dummybyte).parseMaterial(), swordconfig);
+		registerDamage(XMaterial.IRON_SWORD.parseMaterial(), swordconfig);
 
-		registerDamage(XMaterial.requestXMaterial("STONE_SWORD", dummybyte).parseMaterial(), swordconfig);
+		registerDamage(XMaterial.STONE_SWORD.parseMaterial(), swordconfig);
+		
 
 		registerDamage(XMaterial.WOODEN_SWORD.parseMaterial(), swordconfig);
 
@@ -137,12 +138,12 @@ public class ConfigStorage {
 		DamageConfig hoeconfig = new DamageConfig();
 		hoeconfig.setTilingDmg(hoe_tiling);
 		hoeconfig.setEntityDmg(hoe_ehit);
-		registerDamage(XMaterial.requestXMaterial("DIAMOND_HOE", dummybyte).parseMaterial(), hoeconfig);
+		registerDamage(XMaterial.DIAMOND_HOE.parseMaterial(), hoeconfig);
 		registerDamage(XMaterial.GOLDEN_HOE.parseMaterial(), hoeconfig);
 
-		registerDamage(XMaterial.requestXMaterial("IRON_HOE", dummybyte).parseMaterial(), hoeconfig);
+		registerDamage(XMaterial.IRON_HOE.parseMaterial(), hoeconfig);
 
-		registerDamage(XMaterial.requestXMaterial("STONE_HOE", dummybyte).parseMaterial(), hoeconfig);
+		registerDamage(XMaterial.STONE_HOE.parseMaterial(), hoeconfig);
 
 		registerDamage(XMaterial.WOODEN_HOE.parseMaterial(), hoeconfig);
 
@@ -154,10 +155,10 @@ public class ConfigStorage {
 		DamageConfig axeconfig = new DamageConfig();
 		axeconfig.setBlockDmg(axe_bbreak);
 		axeconfig.setEntityDmg(axe_ehit);
-		registerDamage(XMaterial.requestXMaterial("DIAMOND_AXE", dummybyte).parseMaterial(), axeconfig);
+		registerDamage(XMaterial.DIAMOND_AXE.parseMaterial(), axeconfig);
 		registerDamage(XMaterial.GOLDEN_AXE.parseMaterial(), axeconfig);
-		registerDamage(XMaterial.requestXMaterial("IRON_AXE", dummybyte).parseMaterial(), axeconfig);
-		registerDamage(XMaterial.requestXMaterial("STONE_AXE", dummybyte).parseMaterial(), axeconfig);
+		registerDamage(XMaterial.IRON_AXE.parseMaterial(), axeconfig);
+		registerDamage(XMaterial.STONE_AXE.parseMaterial(), axeconfig);
 		registerDamage(XMaterial.WOODEN_AXE.parseMaterial(), axeconfig);
 		
 		// SHOVEL
