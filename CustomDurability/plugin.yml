@@ -1,0 +1,9 @@
+name: CustomDurability
+version: 1.0.0
+main: com.gmail.JyckoSianjaya.customdurability.customdurability
+author: Gober
+description: Your truly one custom durability.
+commands:
+   customdurability:
+         usage: /<command>
+         aliases: [cd, durability]

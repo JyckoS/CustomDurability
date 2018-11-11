@@ -1,0 +1,44 @@
+durability_types:
+    unknown_durability: "&8&lDurability: &e&l%s &7/ &0&l&k%m"
+    handsome_durability: "&b&lDurability &9> &f%s &7/ &f&l%m"
+    spooky_durability: "&5&l&oDurability is &7(&o%s&r/&7&o%m&7)"
+    scary_durability: "&7This item has only &c&o%s &7life left out of &f%m"
+#   yourcustom_durability: "&eDurability&l: &b%s &7/ &9%m"
+
+durabilities:
+   pickaxe:
+     block_break: 1
+     entity_hit: 2
+   shovel:
+     tile_grass: 1
+     block_break: 1
+     entity_hit: 2
+   axe_item:
+     block_break: 1
+     entity_hit: 2
+   hoes_item:
+     tile_grass: 1
+     entity_hit: 1
+   swords:
+     block_break: 2
+     entiy_hit: 1
+# NEXT TO DO BELOW ,,,,,
+   fishing_rod:
+     item_reel: 1
+     reeling_blocks: 2
+     yank_item: 3
+     yank_mob: 5
+   carrot_on_stick:
+     use_boost: 7
+   flint_and_steel:
+     burn_up: 1
+   bow_item:
+     shooting_arrow: 1
+   tridents:
+     block_break: 2
+   elytra_item:
+     flying_for_second: 1
+   shield_item:
+     use_minecrafts: true
+     block_damage: 2
+   
