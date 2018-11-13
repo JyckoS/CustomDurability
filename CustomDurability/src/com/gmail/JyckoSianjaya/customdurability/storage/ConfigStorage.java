@@ -52,9 +52,11 @@ public class ConfigStorage {
 		try {
 		FileConfiguration config = customdurability.getInstance().getConfig();
 		ConfigurationSection durs = config.getConfigurationSection("durability_types");
+		ConfigurationSection notifier = config.getConfigurationSection("durability_notifier");
 		Set<String> keys = durs.getKeys(false);
 		for (String key : keys) {
-			registerKey(key.toLowerCase(), Utility.TransColor(durs.getString(key)));
+			String not = notifier.getString(key);
+			registerKey(key.toLowerCase(), Utility.TransColor(durs.getString(key)), not);
 		}
 		ConfigurationSection dmgs = config.getConfigurationSection("durabilities");
 		/*
@@ -116,8 +118,8 @@ public class ConfigStorage {
 		registerDamage(XMaterial.FISHING_ROD.parseMaterial(), rodconfig);
 		//SWORD
 		
-		int sword_ehit = dmgs.getInt("swords.entity_hit");
-		int sword_bbreak = dmgs.getInt("swords.block_break");
+		int sword_ehit = dmgs.getInt("swords_item.entity_hit");
+		int sword_bbreak = dmgs.getInt("swords_item.block_break");
 		DamageConfig swordconfig = new DamageConfig();
 		swordconfig.setBlockDmg(sword_bbreak);
 		swordconfig.setEntityDmg(sword_ehit);
@@ -208,8 +210,8 @@ public class ConfigStorage {
 		}
 		return instance;
 	}
-	public void registerKey(String key, String format) {
-		durabilities.put(key, new Durability(Utility.TransColor(format)));
+	public void registerKey(String key, String format, String notifier) {
+		durabilities.put(key, new Durability(Utility.TransColor(format), notifier));
 	}
 	
 }

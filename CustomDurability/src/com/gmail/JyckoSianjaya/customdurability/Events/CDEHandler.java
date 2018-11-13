@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -52,19 +53,27 @@ public class CDEHandler {
 		}
 		fixItem(d, p, hitdmg);
 	}
-	public void grassTiling(BlockFormEvent e) {
+	public void grassTiling(PlayerInteractEvent e) {
+		ItemStack it = e.getItem();
+		DamageConfig dg = cfg.getDamage(it.getType());
+		int dmg = dg.getGrassTilingDmg();
+		if (dmg == 0) return;
+		fixItem(it, e.getPlayer(), dmg);
 	}
 	private void fixItem(ItemStack item, Player p, int totaldamage) {
 		NBTItem nbt = new NBTItem(item);
 		Durability dur = cfg.getDurability(nbt.getString("durabilitytype"));
 		int curdur = nbt.getInteger("customdur.currentDur");
-		if (curdur <= 0 && totaldamage > 0) {
+		if (curdur <= totaldamage) {
 			p.getInventory().remove(item);
-			Utility.PlaySound(p, XSound.ITEM_BREAK.bukkitSound(), 2.0F, 0.5F);
+			Utility.PlaySound(p, XSound.ITEM_BREAK.bukkitSound(), 2.0F, 0.7F);
 			return;
 		}
 		int maxdur = nbt.getInteger("customdur.maxDur");
 		curdur = curdur - totaldamage;
+		if (dur.hasNotifier()) {
+		Utility.sendActionBar(p, dur.getActionBar(curdur, maxdur));
+		}
 		int atlore = 0;
 		nbt.setInteger("customdur.currentDur", curdur);
 		ArrayList<String> lores = new ArrayList<String>(item.getItemMeta().getLore());

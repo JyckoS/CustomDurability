@@ -13,6 +13,7 @@ public class customdurability extends JavaPlugin {
 	private Metrics m;
 	private CDEHandler hand;
 	private ConfigStorage cfg;
+	private ActionBarAPI aba;
 	private static customdurability instance;
 	@Override
 	public void onEnable() {
@@ -46,6 +47,7 @@ public class customdurability extends JavaPlugin {
 	private void registerInstance() {
 		hand = CDEHandler.getInstance();
 		cfg = ConfigStorage.getInstance();
+		aba = ActionBarAPI.getInstance();
 	}
 	@Override
 	public void onDisable() {

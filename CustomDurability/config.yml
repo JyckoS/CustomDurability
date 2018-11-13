@@ -5,6 +5,10 @@ durability_types:
     scary_durability: "&7This item has only &c&o%s &7life left out of &f%m"
 #   yourcustom_durability: "&eDurability&l: &b%s &7/ &9%m"
 
+durability_notifier:
+    unknown_durability: "&5&oYour durability: &f%s &8/ &o%m"
+    handsome_durability: "&bDurability: &f%s &7/ &8%m"
+#   durability_type: "&eYour notifier: &f%s &7of %m"
 durabilities:
    pickaxe:
      block_break: 1
@@ -19,9 +23,9 @@ durabilities:
    hoes_item:
      tile_grass: 1
      entity_hit: 1
-   swords:
+   swords_item:
      block_break: 2
-     entiy_hit: 1
+     entity_hit: 1
 # NEXT TO DO BELOW ,,,,,
    fishing_rod:
      item_reel: 1
