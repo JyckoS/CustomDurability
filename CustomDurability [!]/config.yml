@@ -32,8 +32,8 @@ durabilities:
      reeling_blocks: 2
      yank_item: 3
      yank_mob: 5
-   carrot_on_stick:
-     use_boost: 7
+   shears:
+     shear_sheeps: 2
    flint_and_steel:
      burn_up: 1
    bow_item:

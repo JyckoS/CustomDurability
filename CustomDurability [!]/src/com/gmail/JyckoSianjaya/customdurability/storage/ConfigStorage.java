@@ -99,10 +99,10 @@ public class ConfigStorage {
 		registerDamage(XMaterial.FLINT_AND_STEEL.parseMaterial(), flintconfig);
 		
 		// CARROT ON STICK
-		int boostdmg = dmgs.getInt("carrot_on_stick.use_boost");
+		int boostdmg = dmgs.getInt("shears.shear_sheeps");
 		DamageConfig carrotconfig = new DamageConfig();
-		carrotconfig.setCarrotOSBoostDmg(boostdmg);
-		registerDamage(XMaterial.CARROT_ON_A_STICK.parseMaterial(), carrotconfig);
+		carrotconfig.setSheepShearDmg(boostdmg);
+		registerDamage(XMaterial.SHEARS.parseMaterial(), carrotconfig);
 		
 		//FISHING ROD
 		

@@ -2,12 +2,16 @@ package com.gmail.JyckoSianjaya.customdurability.Events;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -43,6 +47,46 @@ public class CDEHandler {
 		}
 		fixItem(d, p, blockdmg);
 	}
+	public void manageFishingReelItem(PlayerFishEvent e) {
+		Player p = e.getPlayer();
+		ItemStack it = p.getItemInHand();
+		DamageConfig rodcfg = cfg.getDamage(it.getType());
+		int mobreeldmg = rodcfg.getFrod_Yanks_item();
+		if (mobreeldmg == 0) {
+			return;
+		}
+		fixItem(it, p, mobreeldmg);
+	}
+	public void manageFishingEmptyReelEvent(PlayerFishEvent e) {
+		Player p = e.getPlayer();
+		ItemStack it = p.getItemInHand();
+		DamageConfig rodcfg = cfg.getDamage(it.getType());
+		int mobreeldmg = rodcfg.getFrod_reels_none();
+		if (mobreeldmg == 0) {
+			return;
+		}
+		fixItem(it, p, mobreeldmg);
+	}
+	public void manageFishingCaughtEvent(PlayerFishEvent e) {
+		Player p = e.getPlayer();
+		ItemStack it = p.getItemInHand();
+		DamageConfig rodcfg = cfg.getDamage(it.getType());
+		int mobreeldmg = rodcfg.getFrod_reels_item();
+		if (mobreeldmg == 0) {
+			return;
+		}
+		fixItem(it, p, mobreeldmg);
+	}
+	public void manageFishingReelEntityEvent(PlayerFishEvent e) {
+		Player p = e.getPlayer();
+		ItemStack it = p.getItemInHand();
+		DamageConfig rodcfg = cfg.getDamage(it.getType());
+		int mobreeldmg = rodcfg.getFrod_Yanks_entity();
+		if (mobreeldmg == 0) {
+			return;
+		}
+		fixItem(it, p, mobreeldmg);
+	}
 	public void manageEntityHitEvent(EntityDamageByEntityEvent e) {
 		Player p = (Player) e.getDamager();
 		ItemStack d = p.getItemInHand();
@@ -53,6 +97,30 @@ public class CDEHandler {
 		}
 		fixItem(d, p, hitdmg);
 	}
+	public void manageBowshootEvent(EntityShootBowEvent e) {
+		Player p = (Player) e.getEntity();
+		ItemStack it = e.getBow();
+		DamageConfig dg = cfg.getDamage(Material.BOW);
+		int dmg = dg.getBowShootDmg();
+		if (dmg == 0) return;
+		fixItem(it, p, dmg);
+	}
+	public void manageFlintBurn(PlayerInteractEvent e) {
+		ItemStack it = e.getItem();
+		DamageConfig dg = cfg.getDamage(it.getType());
+		int dmg = dg.getFlintBurnDmg();
+		if (dmg == 0) return;
+		fixItem(it, e.getPlayer(), dmg);
+	}
+	public void manageShearEvent(PlayerShearEntityEvent e) {
+		Player p = (Player) e.getPlayer();
+		ItemStack d = p.getItemInHand();
+		DamageConfig dg = cfg.getDamage(d.getType());
+		int hitdmg = dg.getShearSheepDmg();
+		if (hitdmg == 0) {
+			return;
+		}
+		fixItem(d, p, hitdmg);	}
 	public void grassTiling(PlayerInteractEvent e) {
 		ItemStack it = e.getItem();
 		DamageConfig dg = cfg.getDamage(it.getType());

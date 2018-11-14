@@ -187,13 +187,13 @@ public class CDCommand implements CommandExecutor {
 			case STONE_SWORD:
 			case WOODEN_SWORD:
 			case DIAMOND_SWORD:
-			case CARROT_ON_A_STICK:
 			case FISHING_ROD:
 			case FLINT_AND_STEEL:
 			case BOW:
 			case TRIDENT:
 			case ELYTRA:
 			case SHIELD:
+			case SHEARS:
 				break;
 				default:
 					Utility.sendMsg(p, "&cYou can't get that item to have a CustomDurability");
@@ -268,13 +268,13 @@ public class CDCommand implements CommandExecutor {
 			case STONE_SWORD:
 			case WOODEN_SWORD:
 			case DIAMOND_SWORD:
-			case CARROT_ON_A_STICK:
 			case FISHING_ROD:
 			case FLINT_AND_STEEL:
 			case BOW:
 			case TRIDENT:
 			case ELYTRA:
 			case SHIELD:
+			case SHEARS:
 				break;
 				default:
 					Utility.sendMsg(pr, "&cYou can't get that item to have a CustomDurability");

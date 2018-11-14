@@ -8,7 +8,7 @@ public class DamageConfig {
 	int frod_empty_reel = 0;
 	int frod_yank_item = 0;
 	int frod_yank_entity = 0;
-	int carrot_on_stick = 0;
+	int sheep_shear = 0;
 	int flint_n_steel = 0;
 	int bow_arrow = 0;
 	int flying_per_sec = 0;
@@ -27,8 +27,9 @@ public class DamageConfig {
 	public void setFrod_Yank_Entity_Dmg(int dmg) {
 		this.frod_yank_entity = dmg;
 	}
-	public void setCarrotOSBoostDmg(int dmg) {
-		this.carrot_on_stick = dmg;
+	public void setSheepShearDmg(int dmg)
+	{
+		this.sheep_shear = dmg;
 	}
 	public void setFlintLitDmg(int dmg) {
 		this.flint_n_steel = dmg;
@@ -72,8 +73,8 @@ public class DamageConfig {
 	public int getFrod_Yanks_entity() {
 		return frod_yank_entity;
 	}
-	public int getCarrotOSBoost() {
-		return carrot_on_stick;
+	public int getShearSheepDmg() {
+		return sheep_shear;
 	}
 	public int getFlintBurnDmg() {
 		return flint_n_steel;
