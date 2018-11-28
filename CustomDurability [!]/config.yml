@@ -9,6 +9,60 @@ durability_notifier:
     unknown_durability: "&5&oYour durability: &f%s &8/ &o%m"
     handsome_durability: "&bDurability: &f%s &7/ &8%m"
 #   durability_type: "&eYour notifier: &f%s &7of %m"
+
+your_currency: "$"
+
+repair_materials:
+   diamond_items:
+   - "DIAMOND"
+   - "@SELFITEM"
+   gold_items:
+   - "GOLD_INGOT"
+   - "@SELFITEM"
+   iron_items:
+   - "IRON_INGOT"
+   - "@SELFITEM"
+   wooden_items:
+   - "OAK_PLANKS"
+   - "SPRUCE_PLANKS"
+   - "JUNGLE_PLANKS"
+   - "BIRCH_PLANKS"
+   - "ACACIA_PLANKS"
+   - "DARK_OAK_PLANKS"
+   - "@SELFITEM"
+   stone_items:
+   - "STONE"
+   - "@SELFITEM"
+   shear_item:
+   - "IRON_INGOT"
+   - "@SELFITEM"
+   bow_item:
+   - "STRING"
+   - "STICK"
+   - "@SELFITEM"
+   flint_and_steel:
+   - "FLINT"
+   - "IRON_INGOT"
+   - "@SELFITEM"
+   trident_item:
+   - "@SELFITEM"
+# @SELFITEM is for same material
+   
+magicanvil_options:
+   random_percentage_max: 2.0@10.5
+   random_integer_max: 10@200
+   repair_values:
+       diamond:
+         type: RANDOM_PERCENTAGE
+         amount: 0
+      # Random Percentage / Random Number doesn't count amounts.
+       iron_ingot:
+         type: PERCENTAGE
+         amount: 20.0
+       same_material:
+         type: PERCENTAGE
+         amount: 75.0
+       
 durabilities:
    pickaxe:
      block_break: 1
@@ -40,8 +94,6 @@ durabilities:
      shooting_arrow: 1
    tridents:
      block_break: 2
-   elytra_item:
-     flying_for_second: 1
    shield_item:
      use_minecrafts: true
      block_damage: 2

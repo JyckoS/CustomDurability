@@ -1,11 +1,13 @@
 package com.gmail.JyckoSianjaya.customdurability.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -16,9 +18,13 @@ import com.gmail.JyckoSianjaya.customdurability.Utility.Utility;
 import com.gmail.JyckoSianjaya.customdurability.Utility.XMaterial;
 import com.gmail.JyckoSianjaya.customdurability.Utility.NBT.NBTItem;
 import com.gmail.JyckoSianjaya.customdurability.durability.Durability;
+import com.gmail.JyckoSianjaya.customdurability.magicanvil.RepairAmount;
+import com.gmail.JyckoSianjaya.customdurability.magicanvil.RepairType;
+import com.gmail.JyckoSianjaya.customdurability.magicanvil.Repairables;
 import com.gmail.JyckoSianjaya.customdurability.storage.ConfigStorage;
+import com.gmail.JyckoSianjaya.customdurability.storage.RepairStorage;
 
-public class CDCommand implements CommandExecutor {
+public class CDCommand implements CommandExecutor, TabExecutor {
 	private ConfigStorage cfg = ConfigStorage.getInstance();
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,6 +42,8 @@ public class CDCommand implements CommandExecutor {
 	 * 
 	 * "customdur.currentDur" returns Current Custom Durability
 	 * "customdur.maxDur" returns Maximum Durability
+	 * 
+	 * "repairtype" returns Repair Type
 	 */
 	/**
 	 * @param snd
@@ -84,14 +92,173 @@ public class CDCommand implements CommandExecutor {
 		switch (args[0].toLowerCase()) {
 		case "help":
 		default:
-			Utility.sendMsg(snd, "&e&n   &n&6&lCustom&c&lDurability&e&n  ");
-			Utility.sendMsg(snd, "&8&l > &7/customdurability &fadd &e<type> &a<MinDur> &2<MaxDur>");
-			Utility.sendMsg(snd, "&8&l > &7/customdurability &fremoveDurability");
-			Utility.sendMsg(snd, "&8&l > &7/customdurability &creload");
-			Utility.sendMsg(snd, "&8&l > &7/customdurability &flist");
-			Utility.sendMsg(snd, "&8&l > &7/customdurability &fcheck");
+			Utility.sendMsg(snd, "&e&n   &n&6&l&nCustom&c&l&nDurability&e&n  ");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &fadd &e<type> &a<MinDur> &2<MaxDur>");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &fremove");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &creload");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability repair &7&o<Amount>");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &brepairables");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &crepairamount");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability repairlist");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &flist");
+			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &fcheck");
 			Utility.sendMsg(snd, "&e&m                             ");
 			return;
+		case "repairables":{
+			if (!isPlayer) {
+				Utility.sendMsg(snd, "&cPlayers only!");
+				return;
+			}
+			Player p = (Player) snd;
+			try {
+				p.getItemInHand().getItemMeta();
+			} catch (Exception e) {
+				Utility.sendMsg(p, "&cThat, have nothing to do with durabilities..");
+				return;
+			}
+			if (p.getItemInHand() == null) {
+				Utility.sendMsg(p, "&cAir is too thin..");
+				return;
+			}
+			ItemStack item = p.getItemInHand();
+			NBTItem nbt = new NBTItem(item);
+			if (!nbt.hasKey("durabilitytype")) {
+				Utility.sendMsg(p, "&cThat is not awesome enough..");
+				return;
+			}
+			RepairStorage rst = RepairStorage.getInstance();
+			String repairables = item.getType() + "&7's Repairables: &a";
+			Repairables rp = rst.getRepairables(item.getType());
+			ArrayList<Material> mat = rp.getMaterials();
+			for (Material m : mat) {
+				String mats = m.toString();
+				mats = mats.replaceAll("LEGACY_", "");
+				mats = mats.replaceAll("LEGACY", "");
+			repairables = repairables + mats + ", ";
+			}
+			Utility.sendMsg(p, repairables);
+			return;
+		}
+		case "repairamount": {
+			if (!isPlayer) {
+				Utility.sendMsg(snd, "&cPlayers only!");
+				return;
+			}
+			Player p = (Player) snd;
+			try {
+				p.getItemInHand().getItemMeta();
+			} catch (Exception e) {
+				Utility.sendMsg(p, "&cThat, have nothing to do with durabilities..");
+				return;
+			}
+			if (p.getItemInHand() == null) {
+				Utility.sendMsg(p, "&cAir is too thin..");
+				return;
+			}
+			ItemStack item = p.getItemInHand();
+			NBTItem nbt = new NBTItem(item);
+			Material mat = item.getType();
+			RepairAmount amount = RepairStorage.getInstance().getRepairAmount(mat);
+			if (amount == null) {
+				Utility.sendMsg(p, "&7That has &cno repair amount&7, could be said that &e&l" + mat.toString() + " &7can't be used to repair.");
+				return;
+			}
+			RepairType type = amount.getRepairType();
+			double am = amount.getRepairAmount();
+			Utility.sendMsg(p, "raw am: " + am);
+			String typess = item.getType().toString().replaceAll("LEGACY_", "").replaceAll("LEGACY", "");
+			Utility.sendMsg(p, "&n" + typess + "&7's repair amount");
+			switch (type) {
+			case PERCENTAGE: {
+				Utility.sendMsg(p, "&7Repair Type: &e&lPERCENTAGE");
+				String percentage = "" + am * 100 + "%";
+				String tosend = "&7Repair Amount: &b&l" + percentage;
+				Utility.sendMsg(p, tosend);
+				return;
+			}
+			case RANDOM_PERCENTAGE: {
+				Utility.sendMsg(p, "&7Repair Type: &5&lRANDOM_PERCENTAGE");
+				String percentage = "&e" + cfg.getMagicAnvil_minRandPercentage() * 100 + "%" + " &7until &c" + cfg.getMagicAnvil_maxRandPercentage() * 100 + "%";
+				String tosend = "&7Repair Amount: &b&l" + percentage;
+				Utility.sendMsg(p, tosend);
+				return;
+			}
+			case INTEGER: {
+				Utility.sendMsg(p, "&7Repair Type: &b&lINTEGER");
+				String percentage = "&a&l" + am;
+				String tosend = "&7Repair Amount: &b&l" + percentage;
+				Utility.sendMsg(p, tosend);
+				return;
+			}
+			case RANDOM_INTEGER: {
+				Utility.sendMsg(p, "&7Repair Type: &d&lRANDOM_INTEGER");
+				String percentage = "&e" + cfg.getMagicAnvil_minIntegerAmount() + " &7until &c" + cfg.getMagicAnvil_maxIntegerAmount();
+				String tosend = "&7Repair Amount: &b&l" + percentage;
+				Utility.sendMsg(p, tosend);
+				return;
+			}
+			}
+			
+		}
+		case "repairlist":
+			Utility.sendMsg(snd, "&e&lRepair Types: &fRANDOM_PERCENTAGE&7, &fPERCENTAGE&7, &fINTEGER,&7 RANDOM_INTEGER&f.");
+			return;
+		case "repair": {
+			if (!isPlayer) {
+				Utility.sendMsg(snd, "&cPlayers only!");
+				return;
+			}
+			Player play = (Player) snd;
+			Integer repairamount = null;
+			if (args.length > 1) {
+				try {
+				repairamount = Integer.parseInt(args[1]);
+				} catch (NumberFormatException e) {
+					Utility.sendMsg(play, "&c&lOops! &7That's not a Number!");
+					return;
+				}
+			}
+			try {
+				play.getItemInHand().getItemMeta();
+			} catch (Exception e) {
+				Utility.sendMsg(play, "&cThat, have nothing to do with durabilities..");
+				return;
+			}
+			if (play.getItemInHand() == null) {
+				Utility.sendMsg(play, "&cAir is too thin..");
+				return;
+			}
+			ItemStack itmr = play.getItemInHand();
+			NBTItem nbt = new NBTItem(itmr);
+			if (!nbt.hasKey("durabilitytype")) {
+				Utility.sendMsg(play, "&cThat is not awesome enough..");
+				return;
+			}
+			int mindur = nbt.getInteger("customdur.currentDur");
+			int maxdur = nbt.getInteger("customdur.maxDur");
+			if (repairamount == null) repairamount = maxdur - mindur;
+			while (mindur - repairamount > maxdur) repairamount--;
+			int finale = mindur + repairamount;
+			nbt.setInteger("customdur.currentDur", finale);
+			ItemStack items = nbt.getItem();
+			ArrayList<String> lorez = new ArrayList<String>(items.getItemMeta().getLore());
+			int target = 0;
+			Durability dtype = cfg.getDurability(nbt.getString("durabilitytype"));
+			for (String str : lorez) {
+				if (!str.contains(dtype.getEmptyFormat())) {
+					target++;
+					continue;
+				}
+				break;
+			}
+			lorez.set(target - 1, dtype.getFormatted(finale, maxdur));
+			ItemMeta meta = items.getItemMeta();
+			meta.setLore(lorez);
+			items.setItemMeta(meta);
+			play.setItemInHand(items);
+			Utility.sendMsg(play, "&7Successfully repaired item durability!");
+			return;
+		}
 		case "check":
 			if (!isPlayer) {
 				Utility.sendMsg(snd, "&cOnly players!");
@@ -109,10 +276,6 @@ public class CDCommand implements CommandExecutor {
 				return;
 			}
 			ItemStack itmr = pp.getItemInHand();
-			if (itmr.getDurability() < 16) {
-				Utility.sendMsg(pp, "&cThat doesn't look like an appropriate tool/armor. Please use item with durability more than 15.");
-				return;
-			}
 			NBTItem nbt = new NBTItem(itmr);
 			if (!nbt.hasKey("durabilitytype")) {
 				Utility.sendMsg(pp, "&cThat is not awesome enough..");
@@ -148,7 +311,7 @@ public class CDCommand implements CommandExecutor {
 				Utility.sendMsg(snd, "&c&lOops! &7Remember that &f<MinDur> &7and &f<maxDur> &7need to be an integer.");
 				return;
 			}
-			
+			if (mindur > maxdur) mindur = maxdur;
 			Player p = (Player) snd;
 			try {
 				p.getItemInHand().getItemMeta();
@@ -304,6 +467,7 @@ public class CDCommand implements CommandExecutor {
 			meta.setLore(lorez);
 			if (meta.isUnbreakable()) {
 			meta.setUnbreakable(false);
+			meta.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			meta.removeItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 			}
 			items.setItemMeta(meta);
@@ -313,6 +477,7 @@ public class CDCommand implements CommandExecutor {
 		case "reload":
 			customdurability.getInstance().reloadConfig();
 			cfg.reloadConfig();
+			RepairStorage.getInstance().reloadRepairs();
 			Utility.sendMsg(snd, "&cConfig reloaded.");
 			return;
 		case "list":
@@ -324,6 +489,11 @@ public class CDCommand implements CommandExecutor {
 			return;
 		}
 		
+	}
+	@Override
+	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

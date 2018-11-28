@@ -19,6 +19,11 @@ public class ConfigStorage {
 	private HashMap<String, Durability> durabilities = new HashMap<String, Durability>();
 	private HashMap<Material, DamageConfig> damages = new HashMap<Material, DamageConfig>();
 	private static ServerVersion version;
+	private Double MagicAnvil_minRandomPercentage = 0.0;
+	private Double MagicAnvil_maxRandomPercentage = 0.0;
+	private int MagicAnvil_minIntegerAmount = 0;
+	private int MagicAnvil_maxIntegerAmount = 0;
+	private String currency;
 	public enum ServerVersion {
 		not_13,
 		_13;
@@ -48,12 +53,42 @@ public class ConfigStorage {
 	public Set<String> getTypes() {
 		return durabilities.keySet();
 	}
+	public double getMagicAnvil_minRandPercentage() {
+		return this.MagicAnvil_minRandomPercentage;
+	}
+	public double getMagicAnvil_maxRandPercentage() {
+		return this.MagicAnvil_maxRandomPercentage;
+	}
+	public int getMagicAnvil_minIntegerAmount() {
+		return this.MagicAnvil_minIntegerAmount;
+	}
+	public int getMagicAnvil_maxIntegerAmount() {
+		return this.MagicAnvil_maxIntegerAmount;
+	}
+	public String getCurrency() { return currency; }
 	public void reloadConfig() {
 		try {
 		FileConfiguration config = customdurability.getInstance().getConfig();
+		String[] magicanvil_randomPercentage = config.getString("magicanvil_options.random_percentage_max").split("@");		
+		String[] magicanvil_randomInteger = config.getString("magicanvil_options.random_integer_max").split("@");
+		try {
+			MagicAnvil_minRandomPercentage = Double.valueOf(magicanvil_randomPercentage[0]) / 100;
+			MagicAnvil_maxRandomPercentage = Double
+					.valueOf(magicanvil_randomPercentage[1]) / 100;
+		} catch (Exception e) {
+			Utility.sendConsole("&6[CD] &7An error occured trying to initialize Magic Anvil Random Percentage. Make sure the format of the options are in the format of &f<MINPERCENTAGE>@<MAXPERCENTAGE>&7. And no letters allowed.");
+		}
+		try {
+			MagicAnvil_minIntegerAmount = Integer.valueOf(magicanvil_randomInteger[0]);
+			MagicAnvil_maxIntegerAmount = Integer.valueOf(magicanvil_randomInteger[1]);
+		} catch (NumberFormatException e) {
+			Utility.sendConsole("&6[CD] &cOOPS! &7An error occured, is the MagicAnvil Random Max Integer option is Number only? No letters, no Decimals..");
+			return;
+		}
 		ConfigurationSection durs = config.getConfigurationSection("durability_types");
 		ConfigurationSection notifier = config.getConfigurationSection("durability_notifier");
 		Set<String> keys = durs.getKeys(false);
+		currency = config.getString("your_currency");
 		for (String key : keys) {
 			String not = notifier.getString(key);
 			registerKey(key.toLowerCase(), Utility.TransColor(durs.getString(key)), not);
