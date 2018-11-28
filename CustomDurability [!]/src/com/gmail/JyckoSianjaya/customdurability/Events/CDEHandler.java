@@ -34,6 +34,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.gmail.JyckoSianjaya.customdurability.customdurability;
+import com.gmail.JyckoSianjaya.customdurability.CustomEvents.CustomDurabilityAnvilRepairEvent;
 import com.gmail.JyckoSianjaya.customdurability.CustomEvents.CustomDurabilitySignRepairEvent;
 import com.gmail.JyckoSianjaya.customdurability.CustomEvents.CustomDurabilityUsageEvent;
 import com.gmail.JyckoSianjaya.customdurability.Utility.Utility;
@@ -494,6 +495,9 @@ public class CDEHandler {
 		}
 		int torepair = finale + curdur;
 		if (torepair > maxdur) torepair = maxdur;
+		CustomDurabilityAnvilRepairEvent evet = new CustomDurabilityAnvilRepairEvent((Player) e.getWhoClicked(), amount, torepair, inv, firstitem, e);
+		Bukkit.getPluginManager().callEvent(evet);
+		torepair = evet.getTotalRepair();
 		nbt1.setInteger("customdur.currentDur", torepair);
 		firstitem = nbt1.getItem();
 		ArrayList<String> lorez = new ArrayList<String>(firstitem.getItemMeta().getLore());

@@ -99,7 +99,6 @@ public class CDCommand implements CommandExecutor, TabExecutor {
 			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability repair &7&o<Amount>");
 			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &brepairables");
 			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &crepairamount");
-			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability repairlist");
 			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &flist");
 			Utility.sendMsg(snd, "&8&l > &7&l/&7customdurability &fcheck");
 			Utility.sendMsg(snd, "&e&m                             ");
@@ -165,7 +164,6 @@ public class CDCommand implements CommandExecutor, TabExecutor {
 			}
 			RepairType type = amount.getRepairType();
 			double am = amount.getRepairAmount();
-			Utility.sendMsg(p, "raw am: " + am);
 			String typess = item.getType().toString().replaceAll("LEGACY_", "").replaceAll("LEGACY", "");
 			Utility.sendMsg(p, "&n" + typess + "&7's repair amount");
 			switch (type) {
@@ -200,9 +198,6 @@ public class CDCommand implements CommandExecutor, TabExecutor {
 			}
 			
 		}
-		case "repairlist":
-			Utility.sendMsg(snd, "&e&lRepair Types: &fRANDOM_PERCENTAGE&7, &fPERCENTAGE&7, &fINTEGER,&7 RANDOM_INTEGER&f.");
-			return;
 		case "repair": {
 			if (!isPlayer) {
 				Utility.sendMsg(snd, "&cPlayers only!");
