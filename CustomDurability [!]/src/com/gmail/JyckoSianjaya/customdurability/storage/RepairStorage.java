@@ -111,14 +111,17 @@ public class RepairStorage {
 				type = RepairType.INTEGER;
 			}
 			double amount = reps.getDouble(str + ".amount");
-			Utility.sendConsole("LOADED: " + str + " type: " + type + "amount: " + amount);
 			RepairAmount amounts = new RepairAmount(type, amount);
 			Material mat = null;
 			try {
 			mat = XMaterial.requestXMaterial(str.toUpperCase(), dummybyte).parseMaterial();
 			} catch (Exception e) {
+				try {
+					mat = Material.matchMaterial(str.toUpperCase());
+				} catch (Exception ee) {
 				Utility.sendConsole("[CD] (RepairValues) &7There is no Material: " + str);
 				mat = Material.IRON_INGOT;
+				}
 			}
 			repairs.put(mat, amounts);
 		}

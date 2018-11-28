@@ -59,10 +59,42 @@ magicanvil_options:
        iron_ingot:
          type: PERCENTAGE
          amount: 20.0
+       gold_ingot:
+         type: PERCENTAGE
+         amount: 25.0
+       flint:
+         type: RANDOM_INTEGER
+         amount: 0
+       string:
+         type: PERCENTAGE
+         amount: 11
+       stick:
+         type: PERCENTAGE
+         amount: 15
+       stone:
+         type: INTEGER
+         amount: 105
+       oak_planks:
+         type: PERCENTAGE
+         amount: 10
+       spruce_planks:
+         type: PERCENTAGE
+         amount: 10
+       jungle_planks:
+         type: PERCENTAGE
+         amount: 10
+       birch_planks:
+         type: PERCENTAGE
+         amount: 10
+       dark_oak_planks:
+         type: PERCENTAGE
+         amount: 10
+       acacia_planks:
+         type: PERCENTAGE
+         amount: 10
        same_material:
          type: PERCENTAGE
-         amount: 75.0
-       
+         amount: 35.0
 durabilities:
    pickaxe:
      block_break: 1

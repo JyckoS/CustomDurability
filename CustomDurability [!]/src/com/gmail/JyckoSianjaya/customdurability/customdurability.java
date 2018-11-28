@@ -37,7 +37,6 @@ public class customdurability extends JavaPlugin {
 	private static customdurability instance;
 	@Override
 	public void onEnable() {
-		experiment();
 		instance = this;
 		m = new Metrics(this);
 		loadConfig();

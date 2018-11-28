@@ -311,7 +311,7 @@ public class CDEHandler {
 			return;
 		}
 		MagicAnvilGUI.setBack(inv);
-		Utility.PlaySound((Player) e.getWhoClicked(), XSound.LEVEL_UP.bukkitSound(), 2.0F, 2.0F);
+		Utility.PlaySound((Player) e.getWhoClicked(), XSound.LEVEL_UP.bukkitSound(), 2.0F, 1.3F);
 	}
 	public void manageFlintBurn(PlayerInteractEvent e) {
 		Player p = (Player) e.getPlayer();
@@ -506,16 +506,20 @@ public class CDEHandler {
 			}
 			break;
 		}
-		lorez.set(targets - 1, dtype.getFormatted(curdur + finale, maxdur));
+		lorez.set(targets - 1, dtype.getFormatted(torepair, maxdur));
 		final ItemMeta meta = firstitem.getItemMeta();
 		meta.setLore(lorez);
 		firstitem.setItemMeta(meta);
 		MagicAnvilGUI.setDone(inv);
 		inv.setItem(16, firstitem);
-		inv.setItem(10, null);
 		inv.setItem(13, null);
+		if (material.getAmount() > 1) {
+				material.setAmount(material.getAmount() - 1);
+				inv.setItem(13, material.clone());
+		}
+		inv.setItem(10, null);
 		for (final HumanEntity enty : e.getViewers()) {
-			Utility.PlaySound((Player) enty, XSound.ANVIL_USE.bukkitSound(), 0.5F, 2.0F);
+			Utility.PlaySound((Player) enty, XSound.ANVIL_USE.bukkitSound(), 0.5F, 0.3F);
 		}
 	}
 	private final Sound villagernah = XSound.VILLAGER_NO.bukkitSound();
@@ -525,25 +529,16 @@ public class CDEHandler {
 		if (it.getType().toString().contains("AIR")) return;
 		if (!rst.hasRepairAmount(it.getType())) {
 			e.setCancelled(true);
-			Utility.sendActionBar((Player) e.getWhoClicked(), "&cThat has no repair amount!");
+			Utility.sendActionBar((Player) e.getWhoClicked(), "&c&lItem has no repair amount!");
 			Utility.PlaySound((Player) e.getWhoClicked(), villagernah, 0.7F, 0.8F);
 			return;
 		}
 		if (e.getInventory().getItem(10) == null) {
 			e.setCancelled(true);
-			Utility.sendActionBar((Player) e.getWhoClicked(), "&cThere's nothing to repair!");
+			Utility.sendActionBar((Player) e.getWhoClicked(), "&f&lPut something to repair!");
 			Utility.PlaySound((Player) e.getWhoClicked(), villagernah, 0.7F, 1.3F);
 			return;
 		}
-		if (it.getAmount() > 1) {
-			ItemStack clon = it.clone();
-			clon.setAmount(it.getAmount() - 1);
-			e.setCursor(clon);
-			it.setAmount(1);
-		}
-		e.setCancelled(true);
-		Inventory inv = e.getClickedInventory();
-		inv.setItem(e.getSlot(), it);
 		Utility.PlaySound((Player) e.getWhoClicked(), placeitem, 0.5F, 1.8F);
 
 	}

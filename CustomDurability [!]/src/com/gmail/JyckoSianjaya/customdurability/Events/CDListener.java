@@ -148,6 +148,14 @@ public class CDListener implements Listener {
 				handler.manageAnvilStartForge(e);
 				return;
 			}
+			if (act.toString().contains("SWAP")) {
+				if (res.getType().toString().contains("ANVIL")) {
+					handler.manageAnvilStartForge(e);
+					e.setCancelled(true);
+					return;
+				}
+				handler.manageAnvilClaim(e);
+			}
 			if (act.toString().contains("PICKUP"))
 			handler.manageAnvilClaim(e);
 			}
